@@ -47,6 +47,17 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - print_pipeline_id
+  test_on_fail:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - run:
+          command: return 1
+      - run:
+          command: echo "the test fail"
+          when: on_fail
+
+
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -59,4 +70,5 @@ workflows:
           requires:
             - save_hello_world_output
       - command_job
+      - test_on_fail
 
